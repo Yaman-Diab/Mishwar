@@ -14,17 +14,15 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, UserEntity>> signUp({
-    required String email,
+    required String identifier,
     required String password,
     required String fullName,
-    String? phone,
   }) async {
     try {
       final user = await _remoteDataSource.signUp(
-        email: email,
+        identifier: identifier,
         password: password,
         fullName: fullName,
-        phone: phone,
       );
       return Right(user);
     } on ServerException catch (e) {
@@ -34,12 +32,12 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, UserEntity>> signIn({
-    required String email,
+    required String identifier,
     required String password,
   }) async {
     try {
       final user = await _remoteDataSource.signIn(
-        email: email,
+        identifier: identifier,
         password: password,
       );
       return Right(user);
@@ -63,6 +61,39 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final user = await _remoteDataSource.getCurrentUser();
       return Right(user);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> requestPasswordReset({required String identifier}) async {
+    try {
+      await _remoteDataSource.requestPasswordReset(identifier);
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> verifyPasswordResetCode({
+    required String identifier,
+    required String code,
+  }) async {
+    try {
+      await _remoteDataSource.verifyPasswordResetCode(identifier, code);
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> updatePassword({required String newPassword}) async {
+    try {
+      await _remoteDataSource.updatePassword(newPassword);
+      return const Right(null);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     }

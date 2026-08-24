@@ -4,7 +4,7 @@ enum UserRole { customer, owner, admin }
 
 class UserEntity extends Equatable {
   final String id;
-  final String email;
+  final String? email;
   final String? fullName;
   final String? phone;
   final UserRole role;

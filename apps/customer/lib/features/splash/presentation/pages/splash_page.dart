@@ -10,7 +10,6 @@ import 'package:mashwar_core/mashwar_core.dart';
 import '../../../../core/di/injection.dart';
 import '../cubit/splash_cubit.dart';
 import '../cubit/splash_state.dart';
-import '../widgets/seal_mark_painter.dart';
 
 /// شاشة البداية — نسخة «2b: الختم يفتح الشاشة» من تصميم Claude Design
 /// (مشروع «تحسين UI الختم الأخضر»، ملف Mishwar Splash.dc.html).

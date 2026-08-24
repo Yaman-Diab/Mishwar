@@ -3,14 +3,14 @@ import '../../domain/entities/user_entity.dart';
 class UserModel extends UserEntity {
   const UserModel({
     required super.id,
-    required super.email,
+    super.email,
     super.fullName,
     super.phone,
     super.role,
     super.avatarUrl,
   });
 
-  factory UserModel.fromMap(Map<String, dynamic> map, {required String email}) {
+  factory UserModel.fromMap(Map<String, dynamic> map, {String? email}) {
     return UserModel(
       id: map['id'] as String,
       email: email,

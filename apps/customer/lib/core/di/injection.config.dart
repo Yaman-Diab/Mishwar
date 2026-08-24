@@ -19,10 +19,17 @@ import '../../features/auth/data/repositories/auth_repository_impl.dart'
     as _i153;
 import '../../features/auth/domain/repositories/auth_repository.dart' as _i787;
 import '../../features/auth/domain/usecases/get_current_user.dart' as _i111;
+import '../../features/auth/domain/usecases/request_password_reset.dart'
+    as _i956;
 import '../../features/auth/domain/usecases/sign_in.dart' as _i920;
 import '../../features/auth/domain/usecases/sign_out.dart' as _i568;
 import '../../features/auth/domain/usecases/sign_up.dart' as _i190;
+import '../../features/auth/domain/usecases/update_password.dart' as _i455;
+import '../../features/auth/domain/usecases/verify_password_reset_code.dart'
+    as _i717;
 import '../../features/auth/presentation/cubit/auth_cubit.dart' as _i117;
+import '../../features/auth/presentation/cubit/password_reset_cubit.dart'
+    as _i271;
 import '../../features/onboarding/data/datasources/onboarding_local_datasource.dart'
     as _i804;
 import '../../features/onboarding/data/repositories/onboarding_repository_impl.dart'
@@ -63,9 +70,18 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i111.GetCurrentUser>(
       () => _i111.GetCurrentUser(gh<_i787.AuthRepository>()),
     );
+    gh.factory<_i956.RequestPasswordReset>(
+      () => _i956.RequestPasswordReset(gh<_i787.AuthRepository>()),
+    );
     gh.factory<_i920.SignIn>(() => _i920.SignIn(gh<_i787.AuthRepository>()));
     gh.factory<_i568.SignOut>(() => _i568.SignOut(gh<_i787.AuthRepository>()));
     gh.factory<_i190.SignUp>(() => _i190.SignUp(gh<_i787.AuthRepository>()));
+    gh.factory<_i455.UpdatePassword>(
+      () => _i455.UpdatePassword(gh<_i787.AuthRepository>()),
+    );
+    gh.factory<_i717.VerifyPasswordResetCode>(
+      () => _i717.VerifyPasswordResetCode(gh<_i787.AuthRepository>()),
+    );
     gh.factory<_i81.HasSeenOnboarding>(
       () => _i81.HasSeenOnboarding(gh<_i430.OnboardingRepository>()),
     );
@@ -77,6 +93,13 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i807.OnboardingCubit>(
       () => _i807.OnboardingCubit(gh<_i522.MarkOnboardingSeen>()),
+    );
+    gh.factory<_i271.PasswordResetCubit>(
+      () => _i271.PasswordResetCubit(
+        gh<_i956.RequestPasswordReset>(),
+        gh<_i717.VerifyPasswordResetCode>(),
+        gh<_i455.UpdatePassword>(),
+      ),
     );
     gh.factory<_i117.AuthCubit>(
       () => _i117.AuthCubit(

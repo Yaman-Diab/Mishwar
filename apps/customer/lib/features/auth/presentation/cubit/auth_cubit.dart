@@ -30,19 +30,13 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> signUp({
-    required String email,
+    required String identifier,
     required String password,
     required String fullName,
-    String? phone,
   }) async {
     emit(const AuthLoading());
     final result = await _signUp(
-      SignUpParams(
-        email: email,
-        password: password,
-        fullName: fullName,
-        phone: phone,
-      ),
+      SignUpParams(identifier: identifier, password: password, fullName: fullName),
     );
     result.fold(
       (failure) => emit(AuthError(failure.message)),
@@ -50,9 +44,11 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  Future<void> signIn({required String email, required String password}) async {
+  Future<void> signIn({required String identifier, required String password}) async {
     emit(const AuthLoading());
-    final result = await _signIn(SignInParams(email: email, password: password));
+    final result = await _signIn(
+      SignInParams(identifier: identifier, password: password),
+    );
     result.fold(
       (failure) => emit(AuthError(failure.message)),
       (user) => emit(AuthAuthenticated(user)),

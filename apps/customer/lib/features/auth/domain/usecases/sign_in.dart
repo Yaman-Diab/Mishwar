@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
-
 import 'package:mashwar_core/mashwar_core.dart';
+
 import '../entities/user_entity.dart';
 import '../repositories/auth_repository.dart';
 
@@ -14,16 +14,19 @@ class SignIn implements UseCase<UserEntity, SignInParams> {
 
   @override
   Future<Either<Failure, UserEntity>> call(SignInParams params) {
-    return _repository.signIn(email: params.email, password: params.password);
+    return _repository.signIn(
+      identifier: params.identifier,
+      password: params.password,
+    );
   }
 }
 
 class SignInParams extends Equatable {
-  final String email;
+  final String identifier;
   final String password;
 
-  const SignInParams({required this.email, required this.password});
+  const SignInParams({required this.identifier, required this.password});
 
   @override
-  List<Object?> get props => [email, password];
+  List<Object?> get props => [identifier, password];
 }

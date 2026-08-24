@@ -1,10 +1,14 @@
 import 'package:injectable/injectable.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'package:mashwar_core/mashwar_core.dart';
 import '../../../../core/utils/app_logger.dart';
+import 'package:mashwar_core/mashwar_core.dart';
 import '../../domain/entities/user_entity.dart';
 import '../models/user_model.dart';
+
+final RegExp _emailRegex = RegExp(r'^[\w\.\-]+@[\w\-]+\.[a-zA-Z]{2,}$');
+
+bool _isEmail(String identifier) => _emailRegex.hasMatch(identifier);
 
 @lazySingleton
 class AuthRemoteDataSource {
@@ -13,14 +17,16 @@ class AuthRemoteDataSource {
   const AuthRemoteDataSource(this._client);
 
   Future<UserModel> signUp({
-    required String email,
+    required String identifier,
     required String password,
     required String fullName,
-    String? phone,
   }) async {
+    final isEmail = _isEmail(identifier);
+
     try {
       final response = await _client.auth.signUp(
-        email: email,
+        email: isEmail ? identifier : null,
+        phone: isEmail ? null : identifier,
         password: password,
       );
       final authUser = response.user;
@@ -31,12 +37,12 @@ class AuthRemoteDataSource {
       final profileData = {
         'id': authUser.id,
         'full_name': fullName,
-        'phone': phone,
+        'phone': isEmail ? null : identifier,
         'role': UserRole.customer.name,
       };
       await _client.from(SupabaseTables.profiles).insert(profileData);
 
-      return UserModel.fromMap(profileData, email: email);
+      return UserModel.fromMap(profileData, email: authUser.email);
     } on AuthException catch (e) {
       throw ServerException(_mapAuthErrorKey(e));
     } on PostgrestException catch (e, st) {
@@ -46,12 +52,15 @@ class AuthRemoteDataSource {
   }
 
   Future<UserModel> signIn({
-    required String email,
+    required String identifier,
     required String password,
   }) async {
+    final isEmail = _isEmail(identifier);
+
     try {
       final response = await _client.auth.signInWithPassword(
-        email: email,
+        email: isEmail ? identifier : null,
+        phone: isEmail ? null : identifier,
         password: password,
       );
       final authUser = response.user;
@@ -65,7 +74,7 @@ class AuthRemoteDataSource {
           .eq('id', authUser.id)
           .single();
 
-      return UserModel.fromMap(profileRow, email: authUser.email ?? email);
+      return UserModel.fromMap(profileRow, email: authUser.email);
     } on AuthException catch (e) {
       throw ServerException(_mapAuthErrorKey(e));
     } on PostgrestException catch (e, st) {
@@ -93,10 +102,50 @@ class AuthRemoteDataSource {
           .eq('id', authUser.id)
           .single();
 
-      return UserModel.fromMap(profileRow, email: authUser.email ?? '');
+      return UserModel.fromMap(profileRow, email: authUser.email);
     } on PostgrestException catch (e, st) {
       appLogger.e('getCurrentUser: profile fetch failed', error: e, stackTrace: st);
       throw const ServerException('auth_error_generic');
+    }
+  }
+
+  Future<void> requestPasswordReset(String identifier) async {
+    final isEmail = _isEmail(identifier);
+
+    try {
+      if (isEmail) {
+        await _client.auth.resetPasswordForEmail(identifier);
+      } else {
+        // shouldCreateUser: false — هذا استرجاع كلمة مرور لحساب موجود
+        // مسبقاً، لا تسجيل حساب جديد؛ رقم غير مسجَّل يجب أن يفشل هنا لا
+        // أن يُنشئ حساباً فارغاً بالخطأ.
+        await _client.auth.signInWithOtp(phone: identifier, shouldCreateUser: false);
+      }
+    } on AuthException catch (e) {
+      throw ServerException(_mapAuthErrorKey(e));
+    }
+  }
+
+  Future<void> verifyPasswordResetCode(String identifier, String code) async {
+    final isEmail = _isEmail(identifier);
+
+    try {
+      await _client.auth.verifyOTP(
+        email: isEmail ? identifier : null,
+        phone: isEmail ? null : identifier,
+        token: code,
+        type: isEmail ? OtpType.recovery : OtpType.sms,
+      );
+    } on AuthException catch (e) {
+      throw ServerException(_mapAuthErrorKey(e));
+    }
+  }
+
+  Future<void> updatePassword(String newPassword) async {
+    try {
+      await _client.auth.updateUser(UserAttributes(password: newPassword));
+    } on AuthException catch (e) {
+      throw ServerException(_mapAuthErrorKey(e));
     }
   }
 
@@ -120,6 +169,10 @@ class AuthRemoteDataSource {
     if (message.contains('password') &&
         (message.contains('short') || message.contains('weak'))) {
       return 'auth_error_weak_password';
+    }
+    if (message.contains('token') &&
+        (message.contains('expired') || message.contains('invalid'))) {
+      return 'auth_error_invalid_code';
     }
     return 'auth_error_generic';
   }
