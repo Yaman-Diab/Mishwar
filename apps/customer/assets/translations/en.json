@@ -1,0 +1,41 @@
+{
+  "app_name": "Mashwar",
+  "splash_tagline": "Your journey begins here",
+
+  "onboarding_skip": "Skip",
+  "onboarding_page1_title": "See the real place",
+  "onboarding_page1_subtitle": "Real photos and videos for every farm, verified with an actual on-site visit.",
+  "onboarding_page2_title": "Book without surprises",
+  "onboarding_page2_subtitle": "An instant lock prevents double booking, with clear cancellation policies from day one.",
+  "onboarding_page3_title": "Real reviews from people who actually visited",
+  "onboarding_page3_subtitle": "No review gets posted until the visit has actually happened.",
+  "onboarding_next": "Next",
+  "onboarding_start_now": "Get Started",
+
+  "auth_login_title": "Login",
+  "auth_signup_title": "Create New Account",
+  "auth_email_label": "Email",
+  "auth_password_label": "Password",
+  "auth_full_name_label": "Full Name",
+  "auth_phone_label": "Phone Number",
+  "auth_login_button": "Login",
+  "auth_signup_button": "Create Account",
+  "auth_no_account_signup": "Don't have an account? Sign up",
+
+  "validation_email_required": "Email is required",
+  "validation_email_invalid": "Invalid email format",
+  "validation_phone_required": "Phone number is required",
+  "validation_phone_invalid": "Invalid phone number",
+  "validation_password_required": "Password is required",
+  "validation_password_too_short": "Password must be at least {min} characters",
+  "validation_field_required": "This field is required",
+  "validation_full_name_required": "Full name is required",
+
+  "auth_error_signup_failed": "Failed to create account, please try again",
+  "auth_error_signin_failed": "Failed to sign in, check your credentials",
+  "auth_error_invalid_credentials": "Invalid email or password",
+  "auth_error_email_taken": "This email is already registered",
+  "auth_error_email_not_confirmed": "Please confirm your email first",
+  "auth_error_weak_password": "Password is too weak",
+  "auth_error_generic": "An unexpected error occurred, please try again"
+}

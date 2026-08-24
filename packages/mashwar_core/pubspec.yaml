@@ -1,0 +1,28 @@
+name: mashwar_core
+description: >
+  الحزمة المشتركة لمشروع مشوار: الهوية البصرية (ثيم فاتح/داكن)، معالجة
+  الأخطاء (Failure/Exception)، عقد UseCase الأساسي، ودجتات مشتركة
+  (AppButton/AppCard)، والـvalidators. تعتمد عليها كل تطبيقات المونوريبو
+  (customer/owner/admin) عبر path dependency.
+version: 0.0.1
+publish_to: 'none'
+
+environment:
+  sdk: ^3.11.4
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  flutter_screenutil: ^5.9.3
+  dartz: ^0.10.1
+  equatable: ^2.0.5
+  easy_localization: ^3.0.7
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:

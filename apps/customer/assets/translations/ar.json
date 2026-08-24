@@ -1,0 +1,41 @@
+{
+  "app_name": "مشوار",
+  "splash_tagline": "مشوارك يبدأ من هنا",
+
+  "onboarding_skip": "تخطي",
+  "onboarding_page1_title": "شوف المكان الحقيقي",
+  "onboarding_page1_subtitle": "صور وفيديوهات حقيقية لكل مزرعة، موثّقة بزيارة ميدانية فعلية.",
+  "onboarding_page2_title": "احجز بلا مفاجآت",
+  "onboarding_page2_subtitle": "قفل فوري يمنع الحجز المزدوج، وسياسات إلغاء واضحة من البداية.",
+  "onboarding_page3_title": "تقييمات حقيقية من ناس زاروا فعلاً",
+  "onboarding_page3_subtitle": "ما بتنكتب أي تقييم إلا بعد ما تكون الزيارة صارت فعلاً.",
+  "onboarding_next": "التالي",
+  "onboarding_start_now": "ابدأ الآن",
+
+  "auth_login_title": "تسجيل الدخول",
+  "auth_signup_title": "إنشاء حساب جديد",
+  "auth_email_label": "البريد الإلكتروني",
+  "auth_password_label": "كلمة المرور",
+  "auth_full_name_label": "الاسم الكامل",
+  "auth_phone_label": "رقم الهاتف",
+  "auth_login_button": "دخول",
+  "auth_signup_button": "إنشاء الحساب",
+  "auth_no_account_signup": "ليس لديك حساب؟ إنشاء حساب جديد",
+
+  "validation_email_required": "البريد الإلكتروني مطلوب",
+  "validation_email_invalid": "صيغة البريد الإلكتروني غير صحيحة",
+  "validation_phone_required": "رقم الهاتف مطلوب",
+  "validation_phone_invalid": "رقم الهاتف غير صحيح",
+  "validation_password_required": "كلمة المرور مطلوبة",
+  "validation_password_too_short": "كلمة المرور يجب ألا تقل عن {min} أحرف",
+  "validation_field_required": "هذا الحقل مطلوب",
+  "validation_full_name_required": "الاسم الكامل مطلوب",
+
+  "auth_error_signup_failed": "تعذّر إنشاء الحساب، حاول مجدداً",
+  "auth_error_signin_failed": "تعذّر تسجيل الدخول، تحقق من بياناتك",
+  "auth_error_invalid_credentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+  "auth_error_email_taken": "هذا البريد الإلكتروني مستخدم مسبقاً",
+  "auth_error_email_not_confirmed": "يجب تأكيد البريد الإلكتروني أولاً",
+  "auth_error_weak_password": "كلمة المرور ضعيفة جداً",
+  "auth_error_generic": "حدث خطأ غير متوقع، حاول مجدداً"
+}
