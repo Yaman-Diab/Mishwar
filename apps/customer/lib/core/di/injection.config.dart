@@ -30,6 +30,24 @@ import '../../features/auth/domain/usecases/verify_password_reset_code.dart'
 import '../../features/auth/presentation/cubit/auth_cubit.dart' as _i117;
 import '../../features/auth/presentation/cubit/password_reset_cubit.dart'
     as _i271;
+import '../../features/booking/data/datasources/booking_remote_datasource.dart'
+    as _i810;
+import '../../features/booking/data/repositories/booking_repository_impl.dart'
+    as _i265;
+import '../../features/booking/domain/repositories/booking_repository.dart'
+    as _i912;
+import '../../features/booking/domain/usecases/cancel_booking_request.dart'
+    as _i38;
+import '../../features/booking/domain/usecases/get_booking_status.dart'
+    as _i360;
+import '../../features/booking/domain/usecases/get_farm_availability.dart'
+    as _i607;
+import '../../features/booking/domain/usecases/request_booking.dart' as _i184;
+import '../../features/booking/presentation/cubit/booking_cubit.dart' as _i329;
+import '../../features/my_bookings/domain/usecases/get_my_bookings.dart'
+    as _i609;
+import '../../features/my_bookings/presentation/cubit/my_bookings_cubit.dart'
+    as _i1009;
 import '../../features/onboarding/data/datasources/onboarding_local_datasource.dart'
     as _i804;
 import '../../features/onboarding/data/repositories/onboarding_repository_impl.dart'
@@ -63,6 +81,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i161.AuthRemoteDataSource>(
       () => _i161.AuthRemoteDataSource(gh<_i454.SupabaseClient>()),
+    );
+    gh.lazySingleton<_i810.BookingRemoteDataSource>(
+      () => _i810.BookingRemoteDataSource(gh<_i454.SupabaseClient>()),
+    );
+    gh.lazySingleton<_i912.BookingRepository>(
+      () => _i265.BookingRepositoryImpl(gh<_i810.BookingRemoteDataSource>()),
     );
     gh.lazySingleton<_i787.AuthRepository>(
       () => _i153.AuthRepositoryImpl(gh<_i161.AuthRemoteDataSource>()),
@@ -101,6 +125,21 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i455.UpdatePassword>(),
       ),
     );
+    gh.factory<_i38.CancelBookingRequest>(
+      () => _i38.CancelBookingRequest(gh<_i912.BookingRepository>()),
+    );
+    gh.factory<_i360.GetBookingStatus>(
+      () => _i360.GetBookingStatus(gh<_i912.BookingRepository>()),
+    );
+    gh.factory<_i607.GetFarmAvailability>(
+      () => _i607.GetFarmAvailability(gh<_i912.BookingRepository>()),
+    );
+    gh.factory<_i184.RequestBooking>(
+      () => _i184.RequestBooking(gh<_i912.BookingRepository>()),
+    );
+    gh.factory<_i609.GetMyBookings>(
+      () => _i609.GetMyBookings(gh<_i912.BookingRepository>()),
+    );
     gh.factory<_i117.AuthCubit>(
       () => _i117.AuthCubit(
         gh<_i190.SignUp>(),
@@ -108,6 +147,17 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i568.SignOut>(),
         gh<_i111.GetCurrentUser>(),
       ),
+    );
+    gh.factory<_i329.BookingCubit>(
+      () => _i329.BookingCubit(
+        gh<_i607.GetFarmAvailability>(),
+        gh<_i184.RequestBooking>(),
+        gh<_i360.GetBookingStatus>(),
+        gh<_i38.CancelBookingRequest>(),
+      ),
+    );
+    gh.factory<_i1009.MyBookingsCubit>(
+      () => _i1009.MyBookingsCubit(gh<_i609.GetMyBookings>()),
     );
     return this;
   }

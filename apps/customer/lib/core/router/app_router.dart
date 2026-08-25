@@ -2,6 +2,10 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/auth/presentation/pages/auth_page.dart';
 import '../../features/auth/presentation/pages/password_reset_page.dart';
+import '../../features/booking/presentation/pages/booking_args.dart';
+import '../../features/booking/presentation/pages/booking_page.dart';
+import '../../features/farm_details/presentation/pages/farm_details_page.dart';
+import '../../features/my_bookings/presentation/pages/my_bookings_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../../features/splash/presentation/pages/splash_page.dart';
 
@@ -27,6 +31,21 @@ final GoRouter appRouter = GoRouter(
       path: '/password-reset',
       name: 'password-reset',
       builder: (context, state) => const PasswordResetPage(),
+    ),
+    GoRoute(
+      path: '/farm-details',
+      name: 'farm-details',
+      builder: (context, state) => const FarmDetailsPage(),
+    ),
+    GoRoute(
+      path: '/booking',
+      name: 'booking',
+      builder: (context, state) => BookingPage(args: state.extra as BookingArgs),
+    ),
+    GoRoute(
+      path: '/my-bookings',
+      name: 'my-bookings',
+      builder: (context, state) => const MyBookingsPage(),
     ),
   ],
 );
