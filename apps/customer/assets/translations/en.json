@@ -252,5 +252,26 @@
   "submit_review_success_title": "Thank you! Your review helps others trust Mashwar more.",
   "submit_review_back_to_bookings": "Back to my bookings",
   "submit_review_already_reviewed_error": "A review was already submitted for this booking",
-  "submit_review_error_generic": "Couldn't publish the review, please try again"
+  "submit_review_error_generic": "Couldn't publish the review, please try again",
+
+  "favorites_title": "Favorites",
+  "favorites_count": {
+    "zero": "No farms",
+    "one": "1 farm",
+    "two": "2 farms",
+    "few": "{} farms",
+    "many": "{} farms",
+    "other": "{} farms"
+  },
+  "favorites_verified_badge": "Verified",
+  "favorites_view_details": "View details",
+  "favorites_price_unit": "SYP / day",
+  "favorites_empty_title": "Nothing in your favorites yet",
+  "favorites_empty_body": "Tap the heart on any farm you like and find it here anytime.",
+  "favorites_explore_cta": "Explore farms",
+  "favorites_removed_toast": "Removed from favorites",
+  "favorites_undo": "Undo",
+  "favorites_restored_toast": "Added it back to favorites",
+  "favorites_details_pending_toast": "This farm's details screen isn't wired up yet",
+  "favorites_error_generic": "An unexpected error occurred, please try again"
 }

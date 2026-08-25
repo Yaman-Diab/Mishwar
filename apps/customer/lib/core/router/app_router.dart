@@ -5,6 +5,7 @@ import '../../features/auth/presentation/pages/password_reset_page.dart';
 import '../../features/booking/presentation/pages/booking_args.dart';
 import '../../features/booking/presentation/pages/booking_page.dart';
 import '../../features/farm_details/presentation/pages/farm_details_page.dart';
+import '../../features/favorites/presentation/pages/favorites_page.dart';
 import '../../features/my_bookings/presentation/pages/my_bookings_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../../features/reviews/presentation/pages/submit_review_args.dart';
@@ -53,6 +54,11 @@ final GoRouter appRouter = GoRouter(
       path: '/submit-review',
       name: 'submit-review',
       builder: (context, state) => SubmitReviewPage(args: state.extra as SubmitReviewArgs),
+    ),
+    GoRoute(
+      path: '/favorites',
+      name: 'favorites',
+      builder: (context, state) => const FavoritesPage(),
     ),
   ],
 );

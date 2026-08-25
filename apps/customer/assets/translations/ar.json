@@ -252,5 +252,26 @@
   "submit_review_success_title": "شكراً إلك! تقييمك ساعد ناس تانيين يثقوا أكتر.",
   "submit_review_back_to_bookings": "رجوع لحجوزاتي",
   "submit_review_already_reviewed_error": "في تقييم مُرسَل مسبقاً لهذا الحجز",
-  "submit_review_error_generic": "تعذّر نشر التقييم، حاول مجدداً"
+  "submit_review_error_generic": "تعذّر نشر التقييم، حاول مجدداً",
+
+  "favorites_title": "المفضلة",
+  "favorites_count": {
+    "zero": "لا مزارع",
+    "one": "مزرعة واحدة",
+    "two": "مزرعتان",
+    "few": "{} مزارع",
+    "many": "{} مزرعة",
+    "other": "{} مزرعة"
+  },
+  "favorites_verified_badge": "موثّقة",
+  "favorites_view_details": "شوف التفاصيل",
+  "favorites_price_unit": "ل.س / اليوم",
+  "favorites_empty_title": "لسا ما ضفت شي عالمفضلة",
+  "favorites_empty_body": "اضغط القلب بأي مزرعة تعجبك وترجعلها بأي وقت.",
+  "favorites_explore_cta": "استكشف المزارع",
+  "favorites_removed_toast": "تم الحذف من المفضلة",
+  "favorites_undo": "تراجع",
+  "favorites_restored_toast": "رجّعناها للمفضلة",
+  "favorites_details_pending_toast": "شاشة تفاصيل هذه المزرعة قيد الربط",
+  "favorites_error_generic": "حدث خطأ غير متوقع، حاول مجدداً"
 }

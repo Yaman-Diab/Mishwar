@@ -7,7 +7,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mashwar_core/mashwar_core.dart';
 
+import '../../../../core/di/injection.dart';
 import '../../../booking/presentation/pages/booking_args.dart';
+import '../../../favorites/domain/usecases/add_favorite.dart';
+import '../../../favorites/domain/usecases/remove_favorite.dart';
 import '../models/farm_details_sample_data.dart';
 import '../widgets/farm_amenity_icons.dart';
 import '../widgets/report_review_sheet.dart';
@@ -16,10 +19,12 @@ import 'photo_viewer_page.dart';
 
 /// ⚠️ تعرض بيانات تجريبية ثابتة (`FarmDetailsSampleData`) لا مزرعة
 /// حقيقية — لا يوجد بعد تدفّق بحث/قائمة يفتح هذه الشاشة بمعرّف مزرعة
-/// فعلي، ولا جدول `farms` مربوط. الحالة التفاعلية (مفضّلة، توسيع
-/// الوصف، فهرس المعرض) محلية بالصفحة عمداً لعدم وجود عملية Backend
-/// حقيقية تبرر Cubit بهذه المرحلة؛ ستُستبدل حين يُربط بحث/تفاصيل مزرعة
-/// فعلياً بجدول Supabase.
+/// فعلي، ولا جدول `farms` مربوط. الحالة التفاعلية (توسيع الوصف، فهرس
+/// المعرض، الإبلاغ) محلية بالصفحة عمداً لعدم وجود عملية Backend حقيقية
+/// تبرر Cubit بهذه المرحلة؛ ستُستبدل حين يُربط بحث/تفاصيل مزرعة فعلياً
+/// بجدول Supabase. **الاستثناء**: تبديل المفضلة يستدعي usecases حقيقية
+/// (نفس مسار ميزة favorites، لا تكرار) — سيفشل حالياً بخطأ مفتاح أجنبي
+/// لأن معرّف المزرعة تجريبي، لذا نتراجع محلياً بصمت دون توست خطأ إضافي.
 class FarmDetailsPage extends StatefulWidget {
   const FarmDetailsPage({super.key});
 
@@ -54,13 +59,23 @@ class _FarmDetailsPageState extends State<FarmDetailsPage> {
     );
   }
 
-  void _toggleFavorite() {
-    setState(() => _isFavorite = !_isFavorite);
+  Future<void> _toggleFavorite() async {
+    final next = !_isFavorite;
+    setState(() => _isFavorite = next);
     _showToast(
-      _isFavorite
-          ? 'farm_details_favorite_added'.tr()
-          : 'farm_details_favorite_removed'.tr(),
+      next ? 'farm_details_favorite_added'.tr() : 'farm_details_favorite_removed'.tr(),
     );
+
+    const farmId = FarmDetailsSampleData.demoFarmId;
+    final result = next
+        ? await getIt<AddFavorite>()(const AddFavoriteParams(farmId: farmId))
+        : await getIt<RemoveFavorite>()(const RemoveFavoriteParams(farmId: farmId));
+
+    // فشل متوقَّع حالياً (معرّف مزرعة تجريبي لا صف حقيقي له) — نتراجع
+    // بصمت عن الحالة المتفائلة بدل إزعاج المستخدم بتوست خطأ متكرر على
+    // بيانات تجريبية؛ المسار نفسه صحيح وسيعمل فور ربط مزرعة حقيقية.
+    if (!mounted) return;
+    result.fold((failure) => setState(() => _isFavorite = !next), (_) {});
   }
 
   void _share() {

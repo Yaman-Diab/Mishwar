@@ -44,6 +44,17 @@ import '../../features/booking/domain/usecases/get_farm_availability.dart'
     as _i607;
 import '../../features/booking/domain/usecases/request_booking.dart' as _i184;
 import '../../features/booking/presentation/cubit/booking_cubit.dart' as _i329;
+import '../../features/favorites/data/datasources/favorites_remote_datasource.dart'
+    as _i904;
+import '../../features/favorites/data/repositories/favorites_repository_impl.dart'
+    as _i144;
+import '../../features/favorites/domain/repositories/favorites_repository.dart'
+    as _i212;
+import '../../features/favorites/domain/usecases/add_favorite.dart' as _i705;
+import '../../features/favorites/domain/usecases/get_favorites.dart' as _i418;
+import '../../features/favorites/domain/usecases/remove_favorite.dart' as _i828;
+import '../../features/favorites/presentation/cubit/favorites_cubit.dart'
+    as _i36;
 import '../../features/my_bookings/domain/usecases/get_my_bookings.dart'
     as _i609;
 import '../../features/my_bookings/presentation/cubit/my_bookings_cubit.dart'
@@ -94,11 +105,18 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i810.BookingRemoteDataSource>(
       () => _i810.BookingRemoteDataSource(gh<_i454.SupabaseClient>()),
     );
+    gh.lazySingleton<_i904.FavoritesRemoteDataSource>(
+      () => _i904.FavoritesRemoteDataSource(gh<_i454.SupabaseClient>()),
+    );
     gh.lazySingleton<_i130.ReviewRemoteDataSource>(
       () => _i130.ReviewRemoteDataSource(gh<_i454.SupabaseClient>()),
     );
     gh.lazySingleton<_i912.BookingRepository>(
       () => _i265.BookingRepositoryImpl(gh<_i810.BookingRemoteDataSource>()),
+    );
+    gh.lazySingleton<_i212.FavoritesRepository>(
+      () =>
+          _i144.FavoritesRepositoryImpl(gh<_i904.FavoritesRemoteDataSource>()),
     );
     gh.lazySingleton<_i787.AuthRepository>(
       () => _i153.AuthRepositoryImpl(gh<_i161.AuthRemoteDataSource>()),
@@ -133,11 +151,26 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i807.OnboardingCubit>(
       () => _i807.OnboardingCubit(gh<_i522.MarkOnboardingSeen>()),
     );
+    gh.factory<_i705.AddFavorite>(
+      () => _i705.AddFavorite(gh<_i212.FavoritesRepository>()),
+    );
+    gh.factory<_i418.GetFavorites>(
+      () => _i418.GetFavorites(gh<_i212.FavoritesRepository>()),
+    );
+    gh.factory<_i828.RemoveFavorite>(
+      () => _i828.RemoveFavorite(gh<_i212.FavoritesRepository>()),
+    );
     gh.factory<_i271.PasswordResetCubit>(
       () => _i271.PasswordResetCubit(
         gh<_i956.RequestPasswordReset>(),
         gh<_i717.VerifyPasswordResetCode>(),
         gh<_i455.UpdatePassword>(),
+      ),
+    );
+    gh.factory<_i36.FavoritesCubit>(
+      () => _i36.FavoritesCubit(
+        gh<_i418.GetFavorites>(),
+        gh<_i828.RemoveFavorite>(),
       ),
     );
     gh.factory<_i225.SubmitReview>(
