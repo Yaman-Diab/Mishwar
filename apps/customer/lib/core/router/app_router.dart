@@ -7,6 +7,8 @@ import '../../features/booking/presentation/pages/booking_page.dart';
 import '../../features/farm_details/presentation/pages/farm_details_page.dart';
 import '../../features/my_bookings/presentation/pages/my_bookings_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
+import '../../features/reviews/presentation/pages/submit_review_args.dart';
+import '../../features/reviews/presentation/pages/submit_review_page.dart';
 import '../../features/splash/presentation/pages/splash_page.dart';
 
 final GoRouter appRouter = GoRouter(
@@ -46,6 +48,11 @@ final GoRouter appRouter = GoRouter(
       path: '/my-bookings',
       name: 'my-bookings',
       builder: (context, state) => const MyBookingsPage(),
+    ),
+    GoRoute(
+      path: '/submit-review',
+      name: 'submit-review',
+      builder: (context, state) => SubmitReviewPage(args: state.extra as SubmitReviewArgs),
     ),
   ],
 );

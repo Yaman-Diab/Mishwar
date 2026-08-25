@@ -2,10 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mashwar_core/mashwar_core.dart';
 
 import '../../../../core/di/injection.dart';
 import '../../../booking/domain/entities/booking_entity.dart';
+import '../../../reviews/presentation/pages/submit_review_args.dart';
 import '../cubit/my_bookings_cubit.dart';
 import '../cubit/my_bookings_state.dart';
 import '../widgets/booking_list_item.dart';
@@ -43,6 +45,20 @@ class _MyBookingsViewState extends State<_MyBookingsView> {
           b.status == BookingStatus.rejected || b.status == BookingStatus.cancelled,
       };
     }).toList();
+  }
+
+  void _openReviewForm(BookingEntity booking) {
+    context.push(
+      '/submit-review',
+      extra: SubmitReviewArgs(
+        bookingId: booking.id,
+        farmId: booking.farmId,
+        farmName: booking.farmName,
+        checkIn: booking.checkIn,
+        checkOut: booking.checkOut,
+        guests: booking.guests,
+      ),
+    );
   }
 
   void _showToast(String message) {
@@ -100,7 +116,7 @@ class _MyBookingsViewState extends State<_MyBookingsView> {
                             separatorBuilder: (context, index) => SizedBox(height: 12.h),
                             itemBuilder: (context, index) => BookingListItem(
                               booking: visible[index],
-                              onRate: () => _showToast('my_bookings_rate_placeholder_toast'.tr()),
+                              onRate: () => _openReviewForm(visible[index]),
                             ),
                           ),
                   ),

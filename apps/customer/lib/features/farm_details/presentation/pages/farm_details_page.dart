@@ -10,7 +10,7 @@ import 'package:mashwar_core/mashwar_core.dart';
 import '../../../booking/presentation/pages/booking_args.dart';
 import '../models/farm_details_sample_data.dart';
 import '../widgets/farm_amenity_icons.dart';
-import '../widgets/farm_image_placeholder.dart';
+import '../widgets/report_review_sheet.dart';
 import '../widgets/verified_info_sheet.dart';
 import 'photo_viewer_page.dart';
 
@@ -34,6 +34,11 @@ class _FarmDetailsPageState extends State<FarmDetailsPage> {
   int _photoIndex = 0;
   bool _isFavorite = false;
   bool _descriptionExpanded = false;
+
+  /// ⚠️ محلية فقط — لا جدول `review_reports` موثّق بأي مخطط بعد،
+  /// وتقييمات هذه الشاشة أصلاً تجريبية (راجع تعليق الملف بالأعلى).
+  /// تُصفَّر عند إعادة تشغيل التطبيق، لا تُحفَظ فعلياً.
+  final Set<String> _reportedReviewIds = {};
 
   @override
   void dispose() {
@@ -61,6 +66,27 @@ class _FarmDetailsPageState extends State<FarmDetailsPage> {
   void _share() {
     Clipboard.setData(const ClipboardData(text: 'https://mishwar.app/farms/dar-al-yasmin'));
     _showToast('farm_details_link_copied'.tr());
+  }
+
+  void _openReportSheet(SampleReview review) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (sheetContext) => ReportReviewSheet(
+        reviewerName: review.name,
+        onSubmit: (reason, note) async {
+          final navigator = Navigator.of(sheetContext);
+          // محاكاة إرسال قصيرة لتجربة استخدام متماسكة فقط — لا نداء
+          // شبكة حقيقي (لا جدول تقارير موثّق، والتقييم نفسه تجريبي).
+          await Future.delayed(const Duration(milliseconds: 600));
+          if (!mounted) return;
+          navigator.pop();
+          setState(() => _reportedReviewIds.add(review.id));
+          _showToast('farm_details_report_success_toast'.tr());
+        },
+      ),
+    );
   }
 
   void _bookNow() {
@@ -145,7 +171,7 @@ class _FarmDetailsPageState extends State<FarmDetailsPage> {
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () => _openViewer(index),
-              child: FarmImagePlaceholder(label: '${index + 1} / $_photoCount'),
+              child: ImagePlaceholder(label: '${index + 1} / $_photoCount'),
             );
           },
         ),
@@ -471,7 +497,7 @@ class _FarmDetailsPageState extends State<FarmDetailsPage> {
               separatorBuilder: (_, _) => SizedBox(width: 10.w),
               itemBuilder: (context, index) => SizedBox(
                 width: 118.w,
-                child: FarmImagePlaceholder(label: '${index + 1}', borderRadius: 14.r),
+                child: ImagePlaceholder(label: '${index + 1}', borderRadius: 14.r),
               ),
             ),
           ),
@@ -534,7 +560,14 @@ class _FarmDetailsPageState extends State<FarmDetailsPage> {
                   .toList(),
             ),
             Container(height: 1, color: colors.border, margin: EdgeInsets.symmetric(vertical: 16.h)),
-            ...data.reviews.map((r) => _ReviewTile(colors: colors, review: r)),
+            ...data.reviews.map(
+              (r) => _ReviewTile(
+                colors: colors,
+                review: r,
+                isReported: _reportedReviewIds.contains(r.id),
+                onReport: () => _openReportSheet(r),
+              ),
+            ),
             Center(
               child: TextButton(
                 onPressed: null,
@@ -763,8 +796,15 @@ class _CriterionBar extends StatelessWidget {
 class _ReviewTile extends StatelessWidget {
   final AppSemanticColors colors;
   final SampleReview review;
+  final bool isReported;
+  final VoidCallback onReport;
 
-  const _ReviewTile({required this.colors, required this.review});
+  const _ReviewTile({
+    required this.colors,
+    required this.review,
+    required this.isReported,
+    required this.onReport,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -823,6 +863,16 @@ class _ReviewTile extends StatelessWidget {
                   color: colors.textPrimary,
                 ),
               ),
+              IconButton(
+                onPressed: isReported ? null : onReport,
+                padding: EdgeInsets.zero,
+                constraints: BoxConstraints(minWidth: 28.r, minHeight: 28.r),
+                iconSize: 14.sp,
+                icon: Icon(
+                  Icons.flag_outlined,
+                  color: isReported ? colors.border : colors.textSecondary,
+                ),
+              ),
             ],
           ),
           SizedBox(height: 9.h),
@@ -830,6 +880,32 @@ class _ReviewTile extends StatelessWidget {
             review.text,
             style: TextStyle(fontSize: 12.5.sp, height: 1.85, color: colors.textSecondary),
           ),
+          if (isReported) ...[
+            SizedBox(height: 9.h),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 11.w, vertical: 8.h),
+              decoration: BoxDecoration(
+                color: colors.textSecondary.withValues(alpha: 0.09),
+                borderRadius: BorderRadius.circular(11.r),
+              ),
+              child: Row(
+                children: [
+                  Icon(Icons.schedule, size: 12.sp, color: colors.textSecondary),
+                  SizedBox(width: 6.w),
+                  Expanded(
+                    child: Text(
+                      'farm_details_report_pending_chip'.tr(),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 10.5.sp,
+                        color: colors.textSecondary,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ],
       ),
     );

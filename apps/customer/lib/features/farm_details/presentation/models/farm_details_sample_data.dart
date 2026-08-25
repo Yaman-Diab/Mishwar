@@ -29,6 +29,7 @@ class SampleReviewCriterion {
 }
 
 class SampleReview {
+  final String id;
   final String initial;
   final String name;
   final String date;
@@ -36,6 +37,7 @@ class SampleReview {
   final String text;
 
   const SampleReview({
+    required this.id,
     required this.initial,
     required this.name,
     required this.date,
@@ -131,6 +133,7 @@ class FarmDetailsSampleData {
     reviewCriteria: _criteria,
     reviews: [
       SampleReview(
+        id: 'rv1',
         initial: 'ل',
         name: 'لينا ح.',
         date: '١٠ آب ٢٠٢٦',
@@ -139,6 +142,7 @@ class FarmDetailsSampleData {
             'نظيف والمولّدة اشتغلت لحالها وقت القطع.',
       ),
       SampleReview(
+        id: 'rv2',
         initial: 'ع',
         name: 'عمر د.',
         date: '٢ آب ٢٠٢٦',
@@ -184,6 +188,7 @@ class FarmDetailsSampleData {
     reviewCriteria: _criteria,
     reviews: [
       SampleReview(
+        id: 'rv1',
         initial: 'L',
         name: 'Lina H.',
         date: 'Aug 10, 2026',
@@ -193,6 +198,7 @@ class FarmDetailsSampleData {
             'its own during the outage.',
       ),
       SampleReview(
+        id: 'rv2',
         initial: 'O',
         name: 'Omar D.',
         date: 'Aug 2, 2026',

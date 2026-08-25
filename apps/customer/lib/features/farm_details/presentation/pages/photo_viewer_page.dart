@@ -1,8 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../widgets/farm_image_placeholder.dart';
+import 'package:mashwar_core/mashwar_core.dart';
 
 class PhotoViewerPage extends StatefulWidget {
   final int initialIndex;
@@ -67,7 +66,7 @@ class _PhotoViewerPageState extends State<PhotoViewerPage> {
                   itemBuilder: (context, index) => Center(
                     child: FractionallySizedBox(
                       heightFactor: 0.66,
-                      child: FarmImagePlaceholder(
+                      child: ImagePlaceholder(
                         label: '${index + 1}',
                         borderRadius: 10.r,
                       ),

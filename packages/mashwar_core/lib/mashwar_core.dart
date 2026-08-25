@@ -10,4 +10,5 @@ export 'utils/price_formatter.dart';
 export 'utils/validators.dart';
 export 'widgets/app_button.dart';
 export 'widgets/app_card.dart';
+export 'widgets/image_placeholder.dart';
 export 'widgets/seal_mark_painter.dart';

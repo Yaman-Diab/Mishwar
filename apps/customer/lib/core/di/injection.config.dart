@@ -60,6 +60,15 @@ import '../../features/onboarding/domain/usecases/mark_onboarding_seen.dart'
     as _i522;
 import '../../features/onboarding/presentation/cubit/onboarding_cubit.dart'
     as _i807;
+import '../../features/reviews/data/datasources/review_remote_datasource.dart'
+    as _i130;
+import '../../features/reviews/data/repositories/review_repository_impl.dart'
+    as _i29;
+import '../../features/reviews/domain/repositories/review_repository.dart'
+    as _i985;
+import '../../features/reviews/domain/usecases/submit_review.dart' as _i225;
+import '../../features/reviews/presentation/cubit/submit_review_cubit.dart'
+    as _i488;
 import '../../features/splash/presentation/cubit/splash_cubit.dart' as _i125;
 import 'injection.dart' as _i464;
 
@@ -85,6 +94,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i810.BookingRemoteDataSource>(
       () => _i810.BookingRemoteDataSource(gh<_i454.SupabaseClient>()),
     );
+    gh.lazySingleton<_i130.ReviewRemoteDataSource>(
+      () => _i130.ReviewRemoteDataSource(gh<_i454.SupabaseClient>()),
+    );
     gh.lazySingleton<_i912.BookingRepository>(
       () => _i265.BookingRepositoryImpl(gh<_i810.BookingRemoteDataSource>()),
     );
@@ -106,6 +118,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i717.VerifyPasswordResetCode>(
       () => _i717.VerifyPasswordResetCode(gh<_i787.AuthRepository>()),
     );
+    gh.lazySingleton<_i985.ReviewRepository>(
+      () => _i29.ReviewRepositoryImpl(gh<_i130.ReviewRemoteDataSource>()),
+    );
     gh.factory<_i81.HasSeenOnboarding>(
       () => _i81.HasSeenOnboarding(gh<_i430.OnboardingRepository>()),
     );
@@ -125,6 +140,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i455.UpdatePassword>(),
       ),
     );
+    gh.factory<_i225.SubmitReview>(
+      () => _i225.SubmitReview(gh<_i985.ReviewRepository>()),
+    );
     gh.factory<_i38.CancelBookingRequest>(
       () => _i38.CancelBookingRequest(gh<_i912.BookingRepository>()),
     );
@@ -139,6 +157,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i609.GetMyBookings>(
       () => _i609.GetMyBookings(gh<_i912.BookingRepository>()),
+    );
+    gh.factory<_i488.SubmitReviewCubit>(
+      () => _i488.SubmitReviewCubit(gh<_i225.SubmitReview>()),
     );
     gh.factory<_i117.AuthCubit>(
       () => _i117.AuthCubit(

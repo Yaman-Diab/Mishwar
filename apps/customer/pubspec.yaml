@@ -68,6 +68,9 @@ dependencies:
   # Logging (raw backend errors before mapping to Failure keys)
   logger: ^2.7.0
 
+  # Picking review photos from camera/gallery
+  image_picker: ^1.1.2
+
   # Local persistence (onboarding-seen flag)
   shared_preferences: ^2.3.2
 

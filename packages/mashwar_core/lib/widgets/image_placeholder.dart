@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mashwar_core/mashwar_core.dart';
 
-/// بديل عن عنصر `<image-slot>` بالتصميم (ملء صورة حقيقية بأداة التصميم
-/// فقط) — بانتظار ربط فعلي بصور Supabase Storage، نعرض حالة فارغة
-/// واضحة (أيقونة + نص) بدل صورة وهمية قد تُفهم كمحتوى حقيقي.
-class FarmImagePlaceholder extends StatelessWidget {
+import '../theme/app_theme_context.dart';
+
+/// حالة فارغة واضحة (أيقونة + نص) لمكان بانتظار صورة حقيقية — بدل صورة
+/// وهمية قد تُفهم كمحتوى فعلي. تُستخدم بأي شاشة تعرض صوراً بلا مصدر
+/// حقيقي مربوط بعد (تفاصيل المزرعة، صور التقييم، إلخ).
+class ImagePlaceholder extends StatelessWidget {
   final String label;
   final double borderRadius;
 
-  const FarmImagePlaceholder({super.key, required this.label, this.borderRadius = 0});
+  const ImagePlaceholder({super.key, required this.label, this.borderRadius = 0});
 
   @override
   Widget build(BuildContext context) {
