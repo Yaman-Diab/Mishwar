@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/auth/presentation/pages/auth_page.dart';
@@ -8,6 +9,7 @@ import '../../features/farm_details/presentation/pages/farm_details_page.dart';
 import '../../features/favorites/presentation/pages/favorites_page.dart';
 import '../../features/my_bookings/presentation/pages/my_bookings_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
+import '../../features/preview/presentation/pages/preview_pages_page.dart';
 import '../../features/reviews/presentation/pages/submit_review_args.dart';
 import '../../features/reviews/presentation/pages/submit_review_page.dart';
 import '../../features/splash/presentation/pages/splash_page.dart';
@@ -30,6 +32,12 @@ final GoRouter appRouter = GoRouter(
       name: 'login',
       builder: (context, state) => const AuthPage(),
     ),
+    if (kDebugMode)
+      GoRoute(
+        path: '/preview',
+        name: 'preview',
+        builder: (context, state) => const PreviewPagesPage(),
+      ),
     GoRoute(
       path: '/password-reset',
       name: 'password-reset',
@@ -43,7 +51,8 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/booking',
       name: 'booking',
-      builder: (context, state) => BookingPage(args: state.extra as BookingArgs),
+      builder: (context, state) =>
+          BookingPage(args: state.extra as BookingArgs),
     ),
     GoRoute(
       path: '/my-bookings',
@@ -53,7 +62,8 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/submit-review',
       name: 'submit-review',
-      builder: (context, state) => SubmitReviewPage(args: state.extra as SubmitReviewArgs),
+      builder: (context, state) =>
+          SubmitReviewPage(args: state.extra as SubmitReviewArgs),
     ),
     GoRoute(
       path: '/favorites',

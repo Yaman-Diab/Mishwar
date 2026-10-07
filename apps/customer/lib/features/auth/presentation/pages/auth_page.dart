@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -94,7 +95,9 @@ class _AuthViewState extends State<_AuthView> {
   void _onSso(BuildContext context, String provider) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('auth_sso_not_configured'.tr(namedArgs: {'provider': provider})),
+        content: Text(
+          'auth_sso_not_configured'.tr(namedArgs: {'provider': provider}),
+        ),
         backgroundColor: context.colors.warning,
       ),
     );
@@ -110,7 +113,10 @@ class _AuthViewState extends State<_AuthView> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                (_wasSignupSubmission ? 'auth_success_signup' : 'auth_success_login').tr(),
+                (_wasSignupSubmission
+                        ? 'auth_success_signup'
+                        : 'auth_success_login')
+                    .tr(),
               ),
               backgroundColor: colors.primary,
             ),
@@ -182,7 +188,10 @@ class _AuthViewState extends State<_AuthView> {
                 duration: _switchDuration,
                 switchInCurve: _switchCurve,
                 child: Text(
-                  (_isLogin ? 'auth_welcome_back_title' : 'auth_get_started_title').tr(),
+                  (_isLogin
+                          ? 'auth_welcome_back_title'
+                          : 'auth_get_started_title')
+                      .tr(),
                   key: ValueKey(_isLogin),
                   style: TextStyle(
                     color: colors.background,
@@ -199,7 +208,10 @@ class _AuthViewState extends State<_AuthView> {
                   duration: _switchDuration,
                   switchInCurve: _switchCurve,
                   child: Text(
-                    (_isLogin ? 'auth_welcome_back_subtitle' : 'auth_get_started_subtitle').tr(),
+                    (_isLogin
+                            ? 'auth_welcome_back_subtitle'
+                            : 'auth_get_started_subtitle')
+                        .tr(),
                     key: ValueKey(_isLogin),
                     style: TextStyle(
                       color: colors.background.withValues(alpha: 0.66),
@@ -271,6 +283,22 @@ class _AuthViewState extends State<_AuthView> {
                     _buildDivider(colors),
                     SizedBox(height: 11.h),
                     _buildSsoButtons(context, colors),
+                    if (kDebugMode && _isLogin) ...[
+                      SizedBox(height: 14.h),
+                      OutlinedButton.icon(
+                        onPressed: () => context.push('/preview'),
+                        icon: const Icon(Icons.visibility_outlined),
+                        label: Text('auth_preview_pages'.tr()),
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: colors.primary,
+                          side: BorderSide(color: colors.primary),
+                          minimumSize: Size(double.infinity, 48.h),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.r),
+                          ),
+                        ),
+                      ),
+                    ],
                     SizedBox(height: 20.h),
                     _buildSwapPrompt(colors),
                     if (!_isLogin) ...[
@@ -307,7 +335,9 @@ class _AuthViewState extends State<_AuthView> {
           AnimatedAlign(
             duration: _switchDuration,
             curve: _switchCurve,
-            alignment: _isLogin ? AlignmentDirectional.centerStart : AlignmentDirectional.centerEnd,
+            alignment: _isLogin
+                ? AlignmentDirectional.centerStart
+                : AlignmentDirectional.centerEnd,
             child: FractionallySizedBox(
               widthFactor: 0.5,
               child: Container(
@@ -515,7 +545,8 @@ class _AuthViewState extends State<_AuthView> {
           child: TextFormField(
             controller: _confirmPasswordController,
             obscureText: true,
-            validator: (v) => Validators.confirmPassword(v, _passwordController.text),
+            validator: (v) =>
+                Validators.confirmPassword(v, _passwordController.text),
             decoration: _inputDecoration(
               colors: colors,
               hint: 'auth_confirm_password_hint'.tr(),
@@ -612,7 +643,9 @@ class _AuthViewState extends State<_AuthView> {
   Widget _buildPasswordToggle(AppSemanticColors colors) {
     return IconButton(
       icon: Icon(
-        _obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+        _obscurePassword
+            ? Icons.visibility_outlined
+            : Icons.visibility_off_outlined,
         size: 19.sp,
         color: colors.textSecondary,
       ),
@@ -647,7 +680,10 @@ class _AuthViewState extends State<_AuthView> {
                   )
                 : Text(
                     (_isLogin ? 'auth_cta_login' : 'auth_cta_signup').tr(),
-                    style: TextStyle(fontSize: 15.5.sp, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 15.5.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
           ),
         );
@@ -749,14 +785,20 @@ class _AuthViewState extends State<_AuthView> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          (_isLogin ? 'auth_swap_prompt_to_signup' : 'auth_swap_prompt_to_login').tr(),
+          (_isLogin
+                  ? 'auth_swap_prompt_to_signup'
+                  : 'auth_swap_prompt_to_login')
+              .tr(),
           style: TextStyle(color: colors.textSecondary, fontSize: 13.sp),
         ),
         SizedBox(width: 6.w),
         GestureDetector(
           onTap: () => _setMode(!_isLogin),
           child: Text(
-            (_isLogin ? 'auth_swap_action_to_signup' : 'auth_swap_action_to_login').tr(),
+            (_isLogin
+                    ? 'auth_swap_action_to_signup'
+                    : 'auth_swap_action_to_login')
+                .tr(),
             style: TextStyle(
               color: colors.primary,
               fontSize: 13.sp,
@@ -783,7 +825,11 @@ class _AuthViewState extends State<_AuthView> {
 
   _PasswordStrength _passwordStrength(String pw) {
     if (pw.isEmpty) {
-      return _PasswordStrength(0, const Color(0x00000000), 'auth_password_strength_weak');
+      return _PasswordStrength(
+        0,
+        const Color(0x00000000),
+        'auth_password_strength_weak',
+      );
     }
     var s = 0;
     if (pw.length >= 6) s++;
@@ -792,15 +838,31 @@ class _AuthViewState extends State<_AuthView> {
     if (RegExp(r'\d').hasMatch(pw)) s++;
 
     if (s <= 1) {
-      return _PasswordStrength(0.3, Colors.red.shade700, 'auth_password_strength_weak');
+      return _PasswordStrength(
+        0.3,
+        Colors.red.shade700,
+        'auth_password_strength_weak',
+      );
     }
     if (s == 2) {
-      return _PasswordStrength(0.55, Colors.orange.shade700, 'auth_password_strength_medium');
+      return _PasswordStrength(
+        0.55,
+        Colors.orange.shade700,
+        'auth_password_strength_medium',
+      );
     }
     if (s == 3) {
-      return _PasswordStrength(0.78, Colors.green.shade700, 'auth_password_strength_good');
+      return _PasswordStrength(
+        0.78,
+        Colors.green.shade700,
+        'auth_password_strength_good',
+      );
     }
-    return _PasswordStrength(1.0, Colors.green.shade700, 'auth_password_strength_strong');
+    return _PasswordStrength(
+      1.0,
+      Colors.green.shade700,
+      'auth_password_strength_strong',
+    );
   }
 }
 
